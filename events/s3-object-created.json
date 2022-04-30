@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "ap-southeast-1",
+            "eventTime": "2022-04-30T05:45:48.491Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "AWS:AIDAZITBNDWMKTFI25N64"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "180.190.172.69"
+            },
+            "responseElements": {
+                "x-amz-request-id": "N60Q1C3WRZQPPY9T",
+                "x-amz-id-2": "nGt1IOyT7bW+Dj+2hdFnKdC/Nxm1AKzwQC+jdj6KYGWTvhzoZWbjtPWM6wtUraGt2AIzZO+yqOzMirjxHnaD1KexMtlVO4ZM"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "65dfb3e4-0234-477c-9c4c-d0df0005a0f3",
+                "bucket": {
+                    "name": "project-golgi-source",
+                    "ownerIdentity": {
+                        "principalId": "A1SQ99ZR2N36S1"
+                    },
+                    "arn": "arn:aws:s3:::project-golgi-source"
+                },
+                "object": {
+                    "key": "Screenshot+from+2022-04-16+16-20-38.png",
+                    "size": 142792,
+                    "eTag": "4b0f336e75d558ed556f4e552a709dc9",
+                    "sequencer": "00626CCD0C6B1B9B83"
+                }
+            }
+        }
+    ]
+}
