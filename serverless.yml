@@ -17,15 +17,15 @@ provider:
     role:
       statements:
         - Effect: 'Allow'
-          Resource: 'arn:aws:s3:::project-golgi-source/*'
+          Resource: arn:aws:s3:::${self:custom.uploads.bucket}/*
           Action: 's3:GetObject'
         - Effect: 'Allow'
-          Resource: 'arn:aws:s3:::project-golgi-thumbnails/*'
+          Resource: arn:aws:s3:::project-golgi-thumbnails/*
           Action: 's3:PutObject'
 
 custom:
-  pictureRepository:
-    bucket: project-golgi-source
+  uploads:
+    bucket: project-golgi-uploads
   thumbnailRepository:
     bucket: project-golgi-thumbnails
 
@@ -34,9 +34,10 @@ functions:
     handler: handler.generate_thumbnail
     events:
       - s3:
-          bucket: ${self:custom.pictureRepository.bucket}
+          bucket: ${self:custom.uploads.bucket}
           event: s3:ObjectCreated:*
           rules:
             - suffix: .png
+          existing: true
     layers:
       - arn:aws:lambda:ap-southeast-1:770693421928:layer:Klayers-p38-Pillow:1
