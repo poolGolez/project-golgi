@@ -10,18 +10,24 @@ provider:
   timeout: 10
   memorySize: 128
   environment:
+    THUMBNAIL_S3_BUCKET: ${self:custom.thumbnailRepository.bucket}
     THUMBNAIL_SIZE: 128
     REGION_NAME: ${self:provider.region}
   iam:
     role:
       statements:
         - Effect: 'Allow'
-          Resource: '*'
-          Action: 's3:*'
+          Resource: 'arn:aws:s3:::project-golgi-source/*'
+          Action: 's3:GetObject'
+        - Effect: 'Allow'
+          Resource: 'arn:aws:s3:::project-golgi-thumbnails/*'
+          Action: 's3:PutObject'
 
 custom:
   pictureRepository:
     bucket: project-golgi-source
+  thumbnailRepository:
+    bucket: project-golgi-thumbnails
 
 functions:
   generate_thumbnail:
