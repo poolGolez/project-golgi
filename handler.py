@@ -17,9 +17,6 @@ def generate_thumbnail(event, context):
     bucket_name = first_record["s3"]["bucket"]["name"]
     object_key = urllib.parse.unquote_plus(first_record["s3"]["object"]["key"], encoding='utf-8')
 
-    response = s3.get_object(Bucket=bucket_name, Key=object_key)
-    s3_object = response["Body"].read()
-
     filename = "/tmp/{}".format(uuid.uuid4())
     s3.download_file(bucket_name, object_key, filename)
     resize_image(filename)
