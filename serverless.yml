@@ -19,6 +19,16 @@ provider:
           Resource: '*'
           Action: 's3:*'
 
+custom:
+  pictureRepository:
+    bucket: project-golgi-source
+
 functions:
-  hello:
-    handler: handler.hello
+  generate_thumbnail:
+    handler: handler.generate_thumbnail
+    events:
+      - s3:
+          bucket: ${self:custom.pictureRepository.bucket}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .png
