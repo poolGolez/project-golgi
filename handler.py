@@ -1,9 +1,12 @@
 import json
 from re import S
 import boto3
+import uuid
 import urllib.parse
+import os
 
 s3 = boto3.client("s3")
+thumbnail_bucket = os.environ["THUMBNAIL_S3_BUCKET"]
 
 def generate_thumbnail(event, context):
     first_record = event["Records"][0]
@@ -13,6 +16,11 @@ def generate_thumbnail(event, context):
 
     response = s3.get_object(Bucket=bucket_name, Key=object_key)
     s3_object = response["Body"].read()
+
+    filename = "/tmp/{}".format(uuid.uuid4())
+    s3.download_file(bucket_name, object_key, filename)
+
+    s3.upload_file(filename, thumbnail_bucket, object_key)
 
     body = {
         "message": "Success, buddy! You've got the S3 location",
