@@ -38,3 +38,5 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .png
+    layers:
+      - arn:aws:lambda:ap-southeast-1:770693421928:layer:Klayers-p38-Pillow:1
