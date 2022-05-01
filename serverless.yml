@@ -28,6 +28,24 @@ custom:
     bucket: project-golgi-uploads
   thumbnailRepository:
     bucket: project-golgi-thumbnails
+  metadata:
+    table: project-golgi-metadata
+
+resources:
+  Resources:
+    metadataTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.metadata.table}
 
 functions:
   generate-thumbnail:
