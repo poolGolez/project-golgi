@@ -30,7 +30,7 @@ custom:
     bucket: project-golgi-thumbnails
 
 functions:
-  generate_thumbnail:
+  generate-thumbnail:
     handler: handler.generate_thumbnail
     events:
       - s3:
