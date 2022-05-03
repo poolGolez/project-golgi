@@ -13,6 +13,7 @@ provider:
     THUMBNAIL_S3_BUCKET: ${self:custom.thumbnailRepository.bucket}
     THUMBNAIL_SIZE: 128
     REGION_NAME: ${self:provider.region}
+    METADATA_TABLE: ${self:custom.metadata.table}
   iam:
     role:
       statements:
@@ -22,8 +23,15 @@ provider:
         - Effect: 'Allow'
           Resource: arn:aws:s3:::project-golgi-thumbnails/*
           Action: 's3:PutObject'
+        - Effect: 'Allow'
+          Resource: arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountId}:table/${self:custom.metadata.table}
+          Action:
+          - 'dynamodb:PutItem'
+
 
 custom:
+  aws:
+    accountId: 636933184920
   uploads:
     bucket: project-golgi-uploads
   thumbnailRepository:
@@ -37,10 +45,10 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: file_location
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: file_location
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
