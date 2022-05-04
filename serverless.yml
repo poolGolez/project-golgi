@@ -26,8 +26,8 @@ provider:
         - Effect: 'Allow'
           Resource: arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountId}:table/${self:custom.metadata.table}
           Action:
-          - 'dynamodb:PutItem'
-
+            - dynamodb:PutItem
+            - dynamodb:Scan
 
 custom:
   aws:
