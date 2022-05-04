@@ -67,3 +67,12 @@ functions:
           existing: true
     layers:
       - arn:aws:lambda:ap-southeast-1:770693421928:layer:Klayers-p38-Pillow:1
+  list-files:
+    handler: api_handler.list
+    events:
+      - http:
+          path: api/files
+          method: GET
+          cors: true
+plugins:
+  - serverless-offline
