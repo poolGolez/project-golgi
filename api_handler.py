@@ -27,6 +27,10 @@ def get(event, context):
             "id": {"S": id}
         }
     )
+
+    if not "Item" in response:
+        return {"statusCode": 404}
+
     item = parse_record(response["Item"])
     return {
         "statusCode": 200,
