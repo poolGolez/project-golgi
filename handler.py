@@ -13,6 +13,7 @@ metadata_table = os.environ["METADATA_TABLE"]
 s3 = boto3.client("s3")
 dynamodb = boto3.client("dynamodb")
 
+
 def generate_thumbnail(event, context):
     print("Event", event)
     first_record = event["Records"][0]
@@ -29,7 +30,7 @@ def generate_thumbnail(event, context):
     dynamodb.put_item(
         TableName=metadata_table,
         Item={
-            "id": {"S": uuid.uuid4()},
+            "id": {"S": str(uuid.uuid4())},
             "file_location": {"S": s3_file_location},
             "file_size": {"N": f"{object_size}"},
             "thumbnail_location": {"S": s3_thumbnail_location}
