@@ -18,7 +18,8 @@ def generate_thumbnail(event, context):
     first_record = event["Records"][0]
 
     bucket_name = first_record["s3"]["bucket"]["name"]
-    object_key = urllib.parse.unquote_plus(first_record["s3"]["object"]["key"], encoding='utf-8')
+    object_key = urllib.parse.unquote_plus(
+        first_record["s3"]["object"]["key"], encoding='utf-8')
     s3_file_location = f"s3://{bucket_name}/{object_key}"
     object_size = first_record["s3"]["object"]["size"]
 
@@ -28,6 +29,7 @@ def generate_thumbnail(event, context):
     dynamodb.put_item(
         TableName=metadata_table,
         Item={
+            "id": {"S": uuid.uuid4()},
             "file_location": {"S": s3_file_location},
             "file_size": {"N": f"{object_size}"},
             "thumbnail_location": {"S": s3_thumbnail_location}

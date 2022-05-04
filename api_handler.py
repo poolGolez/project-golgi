@@ -21,7 +21,9 @@ def list(event, context):
 
 def parse_items(items):
     return [{
+        "id": item["id"]["S"],
         "file_location": item["file_location"]["S"],
         "thumbnail_location": item["thumbnail_location"]["S"],
-        "file_size": int(item["file_size"]["N"])
+        "file_size": int(item["file_size"]["N"]),
+        "_self": f"/api/files/{ item['id']['S'] }"
     } for item in items]
