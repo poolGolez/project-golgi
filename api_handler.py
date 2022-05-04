@@ -7,8 +7,10 @@ metadata_table = os.environ["METADATA_TABLE"]
 
 
 def list(event, context):
-    response = dynamodb.scan(TableName=metadata_table)
-
+    response = dynamodb.scan(
+        TableName=metadata_table,
+        Limit=50
+    )
     body = parse_items(response["Items"])
 
     return {
