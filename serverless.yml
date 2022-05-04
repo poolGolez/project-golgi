@@ -48,6 +48,8 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: file_location
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -85,5 +87,13 @@ functions:
           path: api/files
           method: GET
           cors: true
+  get-file:
+    handler: api_handler.get
+    events:
+      - http:
+          path: api/files/{id}
+          method: GET
+          cors: true
+
 plugins:
   - serverless-offline

@@ -19,11 +19,30 @@ def list(event, context):
     }
 
 
+def get(event, context):
+    id = event["pathParameters"]["id"]
+    response = dynamodb.get_item(
+        TableName=metadata_table,
+        Key={
+            "id": {"S": id}
+        }
+    )
+    item = parse_record(response["Item"])
+    return {
+        "statusCode": 200,
+        "body": json.dumps(item)
+    }
+
+
 def parse_items(items):
-    return [{
+    return [parse_record(item) for item in items]
+
+
+def parse_record(item):
+    return {
         "id": item["id"]["S"],
         "file_location": item["file_location"]["S"],
         "thumbnail_location": item["thumbnail_location"]["S"],
         "file_size": int(item["file_size"]["N"]),
         "_self": f"/api/files/{ item['id']['S'] }"
-    } for item in items]
+    }
