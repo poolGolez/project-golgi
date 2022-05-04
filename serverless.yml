@@ -27,6 +27,7 @@ provider:
           Resource: arn:aws:dynamodb:${self:provider.region}:${self:custom.aws.accountId}:table/${self:custom.metadata.table}
           Action:
             - dynamodb:PutItem
+            - dynamodb:GetItem
             - dynamodb:Scan
 
 custom:
@@ -45,15 +46,25 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
-          - AttributeName: file_location
+          - AttributeName: id
             AttributeType: S
         KeySchema:
-          - AttributeName: file_location
+          - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.metadata.table}
+        GlobalSecondaryIndexes:
+          - IndexName: FileLocationIndex
+            KeySchema:
+              - AttributeName: file_location
+                KeyType: HASH
+            Projection:
+              ProjectionType: 'ALL'
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
 
 functions:
   generate-thumbnail:
